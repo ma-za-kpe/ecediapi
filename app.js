@@ -3,12 +3,15 @@ import createError from "http-errors";
 import logger from "morgan";
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
+import mongoose from 'mongoose';
 
 const app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/your-app-name');
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
