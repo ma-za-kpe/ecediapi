@@ -18,17 +18,11 @@
     "http-errors": "^2.0.0",
     "mongoose": "^8.0.1",
     "morgan": "~1.10.0",
-    "nodemon": "^3.0.1",
     "path": "^0.12.7",
     "solc": "^0.8.23-fixed",
     "web3": "^4.2.2"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "^3.0.5",
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "@openzeppelin/hardhat-upgrades": "^2.4.1",
-    "chai": "^4.3.10",
-    "ethers": "^6.8.1",
-    "hardhat": "^2.19.1"
+    "nodemon": "^3.0.1"
   }
 }
