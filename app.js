@@ -1,15 +1,21 @@
+import 'dotenv/config';
 import express from 'express';
 import createError from 'http-errors';
 import logger from 'morgan';
-// import indexRouter from './routes/index.js';
+import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
+import dbconnect from './dbConnection.js';
 
 const app = express();
+await dbconnect()
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.use(function (req, res, next) {
@@ -23,5 +29,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.send(err.message);
 });
+
+
 
 export default app;
