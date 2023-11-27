@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    category: {
+        type: String,
+        required: true,
+    },
     image: {
         type: String,
         required: true,
