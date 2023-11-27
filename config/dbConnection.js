@@ -6,10 +6,7 @@ const URI = `mongodb+srv://broomstick:${process.env.DBPASSWORD}@cluster0.lwbtsfs
 
 const dbconnect = async () => {
     try {
-        await mongoose.connect(URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(URI);
         console.log('Connected to MongoDB database');
     } catch (error) {
         console.error('Error connecting to MongoDB database:', error);

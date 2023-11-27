@@ -33,8 +33,9 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   const { id } = req.params;
+  const user = req.body.user;
 
-  User.findByIdAndUpdate(id, { firstName: 'Jane' }, { new: true })
+  User.findByIdAndUpdate(id, user, { new: true })
     .then(updatedUser => {
       res.json(updatedUser);
     })
