@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
     },
     maidenName: {
         type: String,
-        required: true,
     },
     age: {
         type: Number,
@@ -50,7 +49,6 @@ const userSchema = new mongoose.Schema({
     },
     university: {
         type: String,
-        required: true,
     },
     bank: {
         type: String,
