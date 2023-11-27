@@ -4,11 +4,10 @@ import createError from 'http-errors';
 import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
-import dbconnect from './dbConnection.js';
+import dbConnect from './config/dbConnection.js';
 
 const app = express();
-await dbconnect()
-
+await dbConnect();
 
 
 app.use(logger('dev'));
