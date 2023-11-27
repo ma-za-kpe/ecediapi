@@ -10,6 +10,16 @@ router.get('/', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.get('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  User.findById(id)
+    .then(user => {
+      res.json(user);
+    })
+    .catch(error => next(error));
+});
+
 router.post('/', (req, res, next) => {
   const user = new User(JSON.parse(req.body.user));
 
