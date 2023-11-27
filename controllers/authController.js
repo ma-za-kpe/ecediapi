@@ -1,19 +1,18 @@
 // setup auth controller with jwt and bcrypt
 // ======================================================
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt')
-const User = require('../models/userModel');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'
+import User from '../models/userModel.js'
 
 // register a new user
 const register = async (req, res) => {
-    const { person } = req.body;
+    const body = await req.body;
     try {
-        const hashedPassword = await bcrypt.hash(person.password, 10);
-        const user = await User.create({ ...person, password: hashedPassword });
-        res.status(201).json({
-            success: true,
-            user,
-        });
+        const password = "testing12345";
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ ...body, password: hashedPassword });
+        await user.save();
+        res.json({ message: 'Registration successful' });
     } catch (error) {
         res.status(500).json({
             success: false,
