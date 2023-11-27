@@ -1,17 +1,31 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
+import bcrypt from "bcrypt"
 
 
 const userSchema = new mongoose.Schema({
-    firstName: {
+    fullName: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    username: {
         type: String,
         required: true,
+        unique: true,
     },
-    lastName: {
+    email: {
         type: String,
-        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+        required: true
     },
-    maidenName: {
-        type: String,
+    hash_password: {
+        type: String
+    },
+    created: {
+        type: Date,
+        default: Date.now
     },
     age: {
         type: Number,
@@ -30,13 +44,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     category: {
         type: String,
+        enum: ['Buyer', 'Seller'],
         required: true,
     },
     image: {
@@ -47,9 +57,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    university: {
-        type: String,
-    },
     bank: {
         type: String,
         required: true,
@@ -58,6 +65,26 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-});
+},
+    { timestamps: true }
+)
+
+userSchema.pre('save', async function (next) {
+    const user = this;
+    if (!user.isModified('password')) return next();
+
+    try {
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(user.password, salt);
+        next();
+    } catch (error) {
+        return next(error);
+    }
+})
+
+
+userSchema.methods.comparePassword = function (password) {
+    return bcrypt.compareSync(password, this.hash_password);
+}
 
 export default mongoose.model('User', userSchema);
