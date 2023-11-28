@@ -53,4 +53,23 @@ const login = async (req, res) => {
     }
 }
 
+// Logout a user, clear cookie, remove token from local storage and destroy session
+const logout = async (req, res) => {
+    try {
+        res.clearCookie('token');
+        req.session.destroy();
+        res.status(200).json({
+            success: true,
+            message: 'Logged out successfully',
+        });
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+        });
+    }
+}
+
+
 export { register, login };
