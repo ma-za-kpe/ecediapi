@@ -8,8 +8,7 @@ import User from '../models/userModel.js'
 const register = async (req, res) => {
     const body = await req.body;
     try {
-        const password = "testing12345";
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(body.password, 10);
         const user = new User({ ...body, password: hashedPassword });
         await user.save();
         res.json({ message: 'Registration successful' });
@@ -22,7 +21,8 @@ const register = async (req, res) => {
 }
 // login a user
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password } = await req.body;
+    console.log(req.body);
     try {
         const user = await User.findOne({ username });
         if (!user) {
@@ -32,7 +32,7 @@ const login = async (req, res) => {
             });
         }
 
-        const validPassword = await bcrypt.compare(password, user.password);
+        const validPassword = bcrypt.compare(password, user.password);
         if (!validPassword) {
             return res.status(400).json({
                 success: false,
@@ -40,7 +40,7 @@ const login = async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.status(200).json({
             success: true,
             token,

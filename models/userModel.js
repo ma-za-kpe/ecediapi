@@ -20,51 +20,51 @@ const userSchema = new mongoose.Schema({
         trim: true,
         required: true
     },
-    hash_password: {
+    password: {
         type: String
     },
     created: {
         type: Date,
         default: Date.now
     },
-    age: {
-        type: Number,
-        required: true,
-    },
-    gender: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    phone: {
-        type: String,
-        required: true,
-    },
+    // age: {
+    //     type: Number,
+    //     required: true,
+    // },
+    // gender: {
+    //     type: String,
+    //     required: true,
+    // },
+    // email: {
+    //     type: String,
+    //     required: true,
+    //     unique: true,
+    // },
+    // phone: {
+    //     type: String,
+    //     required: true,
+    // },
     category: {
         type: String,
         enum: ['Buyer', 'Seller'],
         required: true,
     },
-    image: {
-        type: String,
-        required: true,
-    },
-    address: {
-        type: String,
-        required: true,
-    },
-    bank: {
-        type: String,
-        required: true,
-    },
-    company: {
-        type: String,
-        required: true,
-    },
+    // image: {
+    //     type: String,
+    //     required: true,
+    // },
+    // address: {
+    //     type: String,
+    //     required: true,
+    // },
+    // bank: {
+    //     type: String,
+    //     required: true,
+    // },
+    // company: {
+    //     type: String,
+    //     required: true,
+    // },
 },
     { timestamps: true }
 )
