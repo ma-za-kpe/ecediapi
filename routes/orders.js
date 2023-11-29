@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
     const { id } = req.params;
 
-    Orders.findById(id)
+    Order.findById(id)
         .then(order => {
             res.json(order);
         })
@@ -21,7 +21,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    const order = new order(JSON.parse(req.body.order));
+    const order = new Order(req.body);
 
     order
         .save()
@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
     const { id } = req.params;
-    const order = req.body.order;
+    const order = req.body;
 
     order.findByIdAndUpdate(id, order, { new: true })
         .then(updatedOrder => {
