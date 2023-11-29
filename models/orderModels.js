@@ -1,106 +1,60 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
-
-const bidSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+const orderSchema = new mongoose.Schema({
+    cropName: {
+        type: String,
         required: true,
     },
-    productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true,
-    },
-    bidAmount: {
+    quantity: {
         type: Number,
         required: true,
     },
-    bidDate: {
-        type: Date,
-        required: true,
-    },
-    bidStatus: {
+    qualityRequirements: {
         type: String,
         required: true,
     },
-    bidWinner: {
-        type: Boolean,
+    deliveryLocation: {
+        type: String,
         required: true,
     },
-    bidWinnerDate: {
-        type: Date,
+    deliveryTimeframe: {
+        type: String,
         required: true,
     },
-    bidWinnerAmount: {
+    price: {
         type: Number,
         required: true,
     },
-    bidWinnerStatus: {
+    paymentTerms: {
         type: String,
         required: true,
     },
-    bidWinnerPaid: {
-        type: Boolean,
-        required: true,
-    },
-    bidWinnerPaidDate: {
+    dateAdded: {
         type: Date,
-        required: true,
+        default: Date.now,
     },
-    bidWinnerPaidAmount: {
+    description: {
+        type: String,
+    },
+    packagingPreferences: {
+        type: String,
+    },
+    certifications: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    minCreditScore: {
         type: Number,
-        required: true,
     },
-    bidWinnerPaidStatus: {
+    additionalRequirements: {
         type: String,
-        required: true,
-    },
-    bidWinnerPaidProof: {
-        type: String,
-        required: true,
-    },
-    bidWinnerPaidProofDate: {
-        type: Date,
-        required: true,
-    },
-    bidWinnerPaidProofStatus: {
-        type: String,
-        required: true,
-    },
-    bidWinnerPaidProofApproved: {
-        type: Boolean,
-        required: true,
-    },
-    bidWinnerPaidProofApprovedDate: {
-        type: Date,
-        required: true,
-    },
-    bidWinnerPaidProofApprovedStatus: {
-        type: String,
-        required: true,
-    },
-    bidWinnerPaidProofApprovedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    bidWinnerPaidProofApprovedProof: {
-        type: String,
-        required: true,
-    },
-    bidWinnerPaidProofApprovedProofDate: {
-        type: Date,
-        required: true,
-    },
-    bidWinnerPaidProofApprovedProofStatus: {
-        type: String,
-        required: true,
-    },
-    bidWinnerPaidProofApprovedProofApproved: {
-        type: Boolean,
-        required: true,
     },
 });
 
-export default mongoose.model('Bid', bidSchema);
+export default mongoose.model('Order', orderSchema);
+
