@@ -4,6 +4,7 @@ import createError from 'http-errors';
 import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
+import ordersRouter from './routes/orders.js';
 import authRouter from './routes/auth.js';
 import dbConnect from './config/dbConnection.js';
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
 
 app.use(function (req, res, next) {
