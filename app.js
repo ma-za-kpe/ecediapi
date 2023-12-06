@@ -7,6 +7,7 @@ import usersRouter from './routes/users.js';
 import ordersRouter from './routes/orders.js';
 import authRouter from './routes/auth.js';
 import dbConnect from './config/dbConnection.js';
+import escrowRoutes from './routes/escrow.js';
 
 const app = express();
 await dbConnect();
@@ -20,6 +21,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/orders', ordersRouter);
 app.use('/auth', authRouter);
+app.use('/escrow', escrowRoutes);
 
 app.use(function (req, res, next) {
   next(createError(404));
