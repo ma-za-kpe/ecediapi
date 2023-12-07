@@ -35,7 +35,7 @@ router.put('/:id', (req, res, next) => {
     const { id } = req.params;
     const order = req.body;
 
-    order.findByIdAndUpdate(id, order, { new: true })
+    Order.findByIdAndUpdate(id, order, { new: true })
         .then(updatedOrder => {
             res.json(updatedOrder);
         })
