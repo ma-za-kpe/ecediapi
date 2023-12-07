@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Wallet from '../models/Wallet.js';
 import EscrowTransaction from '../models/EscrowTransaction.js';
-import { token } from 'morgan';
 
 const externalApiUrl = 'https://digitalassets.hack.bog.emtech.com/dcpexternal';
 // https://digitalassets.hack.bog.emtech.com/dcpexternal/v1/wallets/{walletId}
@@ -22,11 +21,17 @@ async function getAccessToken(clientId, clientSecret) {
       console.log("accessToken ... ", accessToken)
       return accessToken;
     } else {
-      throw new Error('Failed to obtain access token');
+      return {
+        error: 'Failed to obtain access token',
+        message: error.message,
+      };
     }
   } catch (error) {
     console.error('Error obtaining access token:', error.message);
-    throw new Error('Failed to obtain access token');
+    return {
+      error: 'Failed to obtain access token',
+      message: error.message,
+    };
   }
 }
 
@@ -53,7 +58,11 @@ async function createKycInfo(kycInfo) {
     return response.data;
   } catch (error) {
     console.error('Error creating KYC information:', error.response.status, "message ", error.response.data);
-    throw new Error('Failed to create KYC information', error.response.status, "message ", error.response.data);
+    return {
+      error: 'Failed to create KYC information',
+      status: error.response.status,
+      message: error.message,
+    };
   }
 }
 
@@ -71,7 +80,11 @@ async function getKycInfo() {
 
   } catch (error) {
     console.error('Error getting KYC information:', error.response.status, "message ", error.response.data);
-    throw new Error('Failed to get KYC information', error.response.status, "message ", error.response.data);
+    return {
+      error: 'Failed to get KYC information',
+      status: error.response.status,
+      message: error.response.data,
+    };
   }
 }
 
@@ -87,7 +100,11 @@ async function getKycDetailsByLevel(kycLevel) {
     return response.data;
   } catch (error) {
     console.error('Error getting KYC information details:', error.response.status, "message ", error.response.data);
-    throw new Error('Failed to get KYC information details', error.response.status, "message ", error.response.data);
+    return {
+      error: 'Failed to get KYC information details',
+      status: error.response.status,
+      message: error.response.data,
+    };
   }
 }
 
@@ -103,7 +120,11 @@ async function updateKycDetailsByLevel(kycLevel, updatedKycInfo) {
     return response.data;
   } catch (error) {
     console.error('Error updating KYC information details:', error.response.status, "message ", error.response.data);
-    throw new Error('Failed to update KYC information details', error.response.status, "message ", error.response.data);
+    return {
+      error: 'Failed to update KYC information details',
+      status: error.response.status,
+      message: error.response.data,
+    };
   }
 }
 
@@ -122,7 +143,11 @@ async function createEndUserWallet(walletData) {
     return response.data;
   } catch (error) {
     console.error('Error creating end-user wallet:', error.response.status, "message ", error.response.data);
-    throw new Error('Failed to create end-user wallet', error.response.status, "message ", error.response.data);
+    return {
+      error: 'Failed to create end-user wallet',
+      status: error.response.status,
+      message: error.response.data,
+    };
   }
 }
 
@@ -136,7 +161,11 @@ async function listWallets(category) {
       return response.data;
     } catch (error) {
       console.error('Error listing wallets:',  error.response.status, "message ", error.response.data);
-      throw new Error('Failed to list wallets',  error.response.status, "message ", error.response.data);
+      return {
+        error: 'Failed to list wallets',
+        status: error.response.status,
+        message: error.response.data,
+      };
     }
   }
 
@@ -155,7 +184,11 @@ async function listWallets(category) {
       console.log("accessToken ** ", accessToken)
 
       console.error('Error getting tokens list:',  error.response.status, "message ", error.response.data);
-      throw new Error('Failed to get tokens list', error.response.status, "message ", error.response.data);
+      return {
+        error: 'Failed to get tokens list',
+        status: error.response.status,
+        message: error.response.data,
+      };
     }
   }
   
@@ -198,7 +231,11 @@ async function checkUserBalance(walletId) {
         return walletDetails.balance;
     } catch (error) {
         console.error('Error checking user balance: checkUserBalance', error.response.status, "message ", error.response.data);
-        throw new Error('Failed to check user balance', error.response.status, "message ", error.response.data);
+        return {
+          error: 'Failed to check user balance',
+          status: error.response.status,
+          message: error.response.data,
+        };
     }
 }
 
@@ -218,7 +255,11 @@ async function fundEscrowWallet(amount, tokenId, latitude, longitude, sourceWall
           return response.data;
     } catch (error) {
         console.error('Error checking user balance:', "status ", error.response.status, "message ", error.response.data);
-        throw new Error('Failed to initiate transfer', "status ", error.response.status, "message ", error.response.data);
+        return {
+          error: 'Failed to initiate transfer',
+          status: error.response.status,
+          message: error.response.data,
+        };
     }
 }
 
@@ -249,7 +290,11 @@ async function createWallet(userId, countryCode, institutionName, tokenId) {
           return wallet;
     } catch (error) {
         console.error('Error creating wallet:', "status ", error.response.status, "message ", error.response.data);
-        throw new Error('Failed to create wallet', "status ", error.response.status, "message ", error.response.data);
+        return {
+          error: 'Failed to create wallet',
+          status: error.response.status,
+          message: error.response.data,
+        };
     }
 }
 
@@ -263,11 +308,15 @@ async function createEscrowTransaction(sellerId, buyerId, amount) {
     ]);
 
     if (!sellerExists || !buyerExists) {
-      throw new Error('Seller or buyer wallet does not exist');
+      return {
+        error: 'Seller or buyer wallet does not exist'
+      };
     }
 
     if (sellerBalance < amount) {
-      throw new Error('Insufficient funds in buyer wallet');
+      return {
+        error: 'Insufficient funds in buyer wallet'
+      };
     }
 
     // Deduct amount from buyer's wallet, initiate transfer from buyer to escrow wallet
@@ -293,7 +342,11 @@ async function createEscrowTransaction(sellerId, buyerId, amount) {
     return escrowTransaction;
   } catch (error) {
     console.error('Error creating escrow transaction:', "status ", error.response.status, "message ", error.response.data);
-    throw new Error('Failed to create escrow transaction', "status ", error.response.status, "message ", error.response.data);
+    return {
+      error: 'Failed to create escrow transaction',
+      status: error.response.status,
+      message: error.response.data,
+    };
   }
 }
 
