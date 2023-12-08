@@ -5,7 +5,9 @@ dotenv.config();
 
 const dbName = process.env.DBNAME || "mydatabase";
 const dbPort = process.env.DBPORT || 27017;
-const dbURL = process.env.DATABASE_URL || `mongodb://localhost:${dbPort}/${dbName}`;
+const dbURL = process.env.DATABASE_URL || `mongodb://0.0.0.0:${dbPort}/${dbName}`;
+
+console.log("db url is", dbURL)
 
 const dbconnect = async () => {
     try {
