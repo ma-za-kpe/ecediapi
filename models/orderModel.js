@@ -56,6 +56,21 @@ const orderSchema = new mongoose.Schema({
     minCreditScore: {
         type: Number,
     },
+    orderImage: {
+        data: {
+            type: Buffer, // Binary data for the image
+            required: true,
+        },
+        contentType: {
+            type: String, // MIME type of the image
+            required: true,
+        },
+    },
+    status: {
+        type: String,
+        enum: ['LIVE' ,'PENDING', 'APPROVED', 'INPROGRESS', 'COMPLETED', 'DISPATCHED', 'INTRANSIT', 'DELIVERED'],
+        default: 'LIVE',
+    },
     additionalRequirements: {
         type: String,
     },

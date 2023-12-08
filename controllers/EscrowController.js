@@ -61,7 +61,7 @@ async function createKycInfo(kycInfo) {
     return {
       error: 'Failed to create KYC information',
       status: error.response.status,
-      message: error.message,
+      message: error.response.data,
     };
   }
 }
