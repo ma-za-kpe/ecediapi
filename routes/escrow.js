@@ -14,7 +14,7 @@ router.get('/v1/check-balance/:walletId', async (req, res) => {
     console.error('Error checking balance:', error);
     res.status(error.status || 500).json({ error: 'Failed to check balance', message: error.message });
   }
-});
+});  
 
 // Create KYC information
 router.post('/v1/kyc', async (req, res) => {
