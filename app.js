@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import createError from 'http-errors';
 import logger from 'morgan';
+import cors from 'cors';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
 import userRouter from './routes/user.js';
@@ -11,6 +12,8 @@ import dbConnect from './config/dbConnection.js';
 import escrowRoutes from './routes/escrow.js';
 
 const app = express();
+// Enable CORS for all routes
+app.use(cors());
 await dbConnect();
 
 
