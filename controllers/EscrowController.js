@@ -279,9 +279,14 @@ async function createWallet(userId, countryCode, institutionName, tokenId) {
         const response = await axios.post(`${externalApiUrl}/v1/wallets`, {
             userId,
             tokenId,
-            kycLevel: 'standard',
+            kycLevel: 'UNVERIFIED',
             countryCode,
             institutionName,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           });
           const wallet = response.data;
           // Save the wallet in the local database
