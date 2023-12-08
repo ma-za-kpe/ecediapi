@@ -12,12 +12,14 @@ router.get('/', userController.getAllUsers);
 router.get('/:userId', userController.getUserById);
 
 // Update user by ID
-router.patch('/:userId', userController.updateUser);
+router.put('/:userId', userController.updateUser);
 
 // Delete user by ID
 router.delete('/:userId', userController.deleteUser);
 
 router.get('/email/:userEmail', userController.getUserByEmail);
+
+router.put('/:userId/update-wallet', userController.updateWalletId);
 
 export default router;
 

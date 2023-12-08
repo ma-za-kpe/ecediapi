@@ -77,6 +77,33 @@ const updateUser = async (req, res) => {
   }
 };
 
+// Update walletId for user by ID
+const updateWalletId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { walletId } = req.body;
+
+    if (!walletId) {
+      return res.status(400).json({ error: 'WalletId is required in the request body' });
+    }
+
+    const updatedUser = await UserFormSchema.findByIdAndUpdate(
+      userId,
+      { 'generalInfo.walletId': walletId },
+      { new: true }
+    );
+
+    if (updatedUser) {
+      res.json(updatedUser);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating walletId:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 // Update user by ID
 // const updateUser = async (req, res) => {
 //   try {
@@ -112,4 +139,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export default { createUser, getAllUsers, getUserById, updateUser, deleteUser, getUserByEmail };
+export default { createUser, getAllUsers, getUserById, updateUser, deleteUser, getUserByEmail, updateWalletId };
