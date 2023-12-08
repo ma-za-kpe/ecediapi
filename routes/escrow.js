@@ -123,5 +123,8 @@ router.post('/v1/initiate-escrow', async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   });
+
+  router.delete('/v1/:walletId', escrowController.deleteWallet);
+
   
 export default router;

@@ -303,6 +303,30 @@ async function createWallet(userId, countryCode, institutionName, tokenId) {
     }
 }
 
+async function deleteWallet(walletId) {
+  await ensureAccessToken();
+  const apiUrl = await axios.post(`${externalApiUrl}/v1/wallets/${walletId}`,
+  {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  try {
+    const response = await axios.delete(apiUrl);
+    console.log('Wallet deleted successfully');
+    return response.data; // You can return the response data if needed
+  } catch (error) {
+    console.error('Error deleting wallet:', error.message);
+    return {
+      error: 'Failed to delete wallet',
+      status: error.response.status,
+      message: error.response.data,
+    };
+  }
+}
+
+
 async function createEscrowTransaction(sellerId, buyerId, amount) {
   try {
     const [sellerExists, buyerExists, sellerBalance, buyerWallet] = await parallelRequests([
@@ -368,6 +392,7 @@ export default {
   createKycInfo,
   getKycInfo,
   getKycDetailsByLevel,
-  updateKycDetailsByLevel
+  updateKycDetailsByLevel,
+  deleteWallet
 };
 
