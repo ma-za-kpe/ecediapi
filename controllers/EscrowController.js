@@ -383,6 +383,28 @@ function generateTransactionId() {
   return Math.random().toString(36).substr(2, 9);
 }
 
+async function checkBalance(walletId) {
+  await ensureAccessToken();
+  try {
+      const response = await axios.get(`${externalApiUrl}/v1/wallets/${walletId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const walletDetails = response.data;
+      console.log('success msg:' , walletDetails)
+      return walletDetails.balance;
+  } catch (error) {
+      console.error('Error checking user balance: checkUserBalance', error.response.status, "message ", error.response.data);
+      return {
+        error: 'Failed to check user balance',
+        status: error.response.status,
+        message: error.response.data,
+      };
+  }
+}
+
 export default {
   walletExists,
   createWallet,
@@ -393,6 +415,7 @@ export default {
   getKycInfo,
   getKycDetailsByLevel,
   updateKycDetailsByLevel,
-  deleteWallet
+  deleteWallet,
+  checkBalance
 };
 

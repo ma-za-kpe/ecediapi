@@ -2,6 +2,20 @@ import express from 'express';
 import escrowController from '../controllers/EscrowController.js';
 const router = express.Router();
 
+
+// Define a route for checking the balance
+router.get('/v1/check-balance/:walletId', async (req, res) => {
+  const walletId = req.params.walletId;
+
+  try {
+    const balance = await escrowController.checkBalance(walletId);
+    res.json({ balance });
+  } catch (error) {
+    console.error('Error checking balance:', error);
+    res.status(error.status || 500).json({ error: 'Failed to check balance', message: error.message });
+  }
+});  
+
 // Create KYC information
 router.post('/v1/kyc', async (req, res) => {
   try {
