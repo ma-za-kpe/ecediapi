@@ -11,6 +11,7 @@ import authRouter from './routes/auth.js';
 import dbConnect from './config/dbConnection.js';
 import escrowRoutes from './routes/escrow.js';
 import ignitiaRoutes from './routes/ignitia.js';
+import bidRouter from './routes/bid.js'
 
 const app = express();
 // Enable CORS for all routes
@@ -29,6 +30,7 @@ app.use('/auth', authRouter);
 app.use('/escrow', escrowRoutes);
 app.use('/user', userRouter);
 app.use('/ignitia', ignitiaRoutes);
+app.use('/bid', bidRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
