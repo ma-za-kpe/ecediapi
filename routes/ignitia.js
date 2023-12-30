@@ -5,8 +5,8 @@ const router = express.Router();
 // Define a route for getting the weather
 router.post('/v1/get-weather', async (req, res) => {
   try {
-    const { latitude, longitude } = req.body;
-    const weather = await ignitiaController.getWeather(latitude, longitude);
+    const { latitude, longitude, crop } = req.body;
+    const weather = await ignitiaController.getWeather(latitude, longitude, crop);
     res.json({ weather });
   } catch (error) {
     console.error('Error getting weather:', error);
