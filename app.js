@@ -13,6 +13,7 @@ import escrowRoutes from './routes/escrow.js';
 import ignitiaRoutes from './routes/ignitia.js';
 import bidRouter from './routes/bid.js'
 import cropRouter from './routes/crop.js'
+import insuranceRouter from './routes/insurance.js'
 
 const app = express();
 // Enable CORS for all routes
@@ -33,6 +34,7 @@ app.use('/user', userRouter);
 app.use('/ignitia', ignitiaRoutes);
 app.use('/bid', bidRouter);
 app.use('/', cropRouter);
+app.use('/insurance', insuranceRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));

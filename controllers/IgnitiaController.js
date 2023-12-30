@@ -1,4 +1,5 @@
 import axios from 'axios';
+import CropModel from '../models/Crop.js';
 
 // must protect api key
 // add key to .env file
@@ -10,13 +11,16 @@ const authKey = process.env.AUTH_KEY
 // Construct the external API URL using the apiKey
 const externalApiUrl = `https://b2b.ignitia.se/api/iskaplusbr-mvp/forecast?Content-Type=application/json&auth-key=${apiKey}`;
 
-async function getWeather(latitude, longitude) {
-  const today = getCurrentDate();
-  const sevenDaysFromNow = getDateSevenDaysFromNow();
-  
-  console.log('Today:', today);
-  console.log('Date 7 days from now:', sevenDaysFromNow);
+async function getWeather(latitude, longitude, crop) {
   try {
+    // Get today's date and date 7 days from now
+    const today = getCurrentDate();
+    const sevenDaysFromNow = getDateSevenDaysFromNow();
+
+    console.log('Today:', today);
+    console.log('Date 7 days from now:', sevenDaysFromNow);
+
+    // Set headers and data for the API request
     const headers = {
       'auth-key': authKey,
     };
@@ -26,20 +30,56 @@ async function getWeather(latitude, longitude) {
       lon: longitude,
       date_interval: {
         start: today,
-        end: sevenDaysFromNow
+        end: sevenDaysFromNow,
+      },
+    };
+
+    // Make the API request to get weather data
+    const response = await axios.post(`${externalApiUrl}`, data, { headers });
+    const fcatValue = response.data['2023-12-28']?.daily?.fcat;
+
+    // Check if the crops table is empty
+    const count = await CropModel.countDocuments();
+    if (count === 0) {
+      return {
+        message: 'Crops table is empty.',
+        fcatValue: fcatValue,
+      };
+    } else {
+      // Check if the crop exists by name
+      const existingCrop = await CropModel.findOne({ name: crop });
+      if (existingCrop) {
+        const fcatOneCategories = existingCrop.categories.filter(category => category.fcat === fcatValue);
+        // Log or return the result
+        console.log(fcatOneCategories[0].advise);
+        return {
+          message: `Crop '${crop}'`,
+          fcatValue: fcatValue,
+          advise: fcatOneCategories[0].advise,
+        };
+      } else {
+        return {
+          message: `Crop '${crop}' does not exist.`,
+          fcatValue: fcatValue,
+        };
       }
-    };
-
-    const response = await axios.post(`${externalApiUrl}`, data, {headers});
-
-    return response.data;
+    }
   } catch (error) {
-    console.error('Error getting weather data:', error.response.status, "message ", error.response.data);
-    return {
-      error: 'Failed to get weather data',
-      status: error.response.status,
-      message: error.response.data,
-    };
+    console.error('Error:', error.message);
+    if (error.response) {
+      console.error('Error getting weather data:', error.response.status, 'message', error.response.data);
+      return {
+        error: 'Failed to get weather data',
+        status: error.response.status,
+        message: error.response.data,
+      };
+    } else {
+      // Handle other types of errors
+      console.error('Unexpected error:', error);
+      return {
+        error: 'Unexpected error occurred',
+      };
+    }
   }
 }
 
