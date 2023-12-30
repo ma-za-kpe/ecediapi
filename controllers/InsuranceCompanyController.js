@@ -1,4 +1,4 @@
-import InsuranceModel from '../models/insuranceCompany.js';
+import InsuranceModel from '../models/InsuranceCompany.js';
 
 // Create a new insurance company
 const createInsuranceCompany = async (req, res) => {
