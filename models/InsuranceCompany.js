@@ -60,6 +60,6 @@ const insuranceCompanySchema = new mongoose.Schema({
   },
 });
 
-const InsuranceCompany = mongoose.model('InsuranceCompany', insuranceCompanySchema);
+const InsuranceModel = mongoose.model('Insurance', insuranceCompanySchema);
 
-export default InsuranceCompany;
+export default InsuranceModel;

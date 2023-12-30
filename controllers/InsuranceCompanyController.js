@@ -1,9 +1,9 @@
-import InsuranceCompany from '../models/insuranceCompany.js';
+import InsuranceModel from '../models/insuranceCompany.js';
 
 // Create a new insurance company
 const createInsuranceCompany = async (req, res) => {
   try {
-    const newInsuranceCompany = await InsuranceCompany.create(req.body);
+    const newInsuranceCompany = await InsuranceModel.create(req.body);
     res.status(201).json(newInsuranceCompany);
   } catch (error) {
     console.error('Error creating insurance company:', error.message);
@@ -17,7 +17,7 @@ const createInsuranceCompany = async (req, res) => {
 // Get all insurance companies
 const getAllInsuranceCompanies = async (req, res) => {
   try {
-    const insuranceCompanies = await InsuranceCompany.find();
+    const insuranceCompanies = await InsuranceModel.find();
     res.json(insuranceCompanies);
   } catch (error) {
     console.error('Error getting insurance companies:', error.message);
@@ -29,7 +29,7 @@ const getAllInsuranceCompanies = async (req, res) => {
 const getInsuranceCompanyById = async (req, res) => {
   const { id } = req.params;
   try {
-    const insuranceCompany = await InsuranceCompany.findById(id);
+    const insuranceCompany = await InsuranceModel.findById(id);
     if (!insuranceCompany) {
       return res.status(404).json({ error: 'Insurance company not found' });
     }
@@ -44,7 +44,7 @@ const getInsuranceCompanyById = async (req, res) => {
 const updateInsuranceCompanyById = async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedInsuranceCompany = await InsuranceCompany.findByIdAndUpdate(
+    const updatedInsuranceCompany = await InsuranceModel.findByIdAndUpdate(
       id,
       req.body,
       { new: true, runValidators: true }
@@ -63,7 +63,7 @@ const updateInsuranceCompanyById = async (req, res) => {
 const deleteInsuranceCompanyById = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedInsuranceCompany = await InsuranceCompany.findByIdAndDelete(id);
+    const deletedInsuranceCompany = await InsuranceModel.findByIdAndDelete(id);
     if (!deletedInsuranceCompany) {
       return res.status(404).json({ error: 'Insurance company not found' });
     }
