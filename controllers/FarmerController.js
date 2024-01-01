@@ -10,7 +10,10 @@ const farmerController = {
       res.status(201).json(newFarmer);
     } catch (error) {
       console.error('Error creating farmer:', error);
-      res.status(500).json({ error: 'Failed to create farmer' });
+      res.status(500).json({ 
+        error: 'Failed to create farmer',
+        message: error.message 
+    });
     }
   },
 
