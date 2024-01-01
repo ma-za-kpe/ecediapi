@@ -70,6 +70,9 @@ app.use('/', cropRouter);
 app.use('/insurance', insuranceRouter);
 app.use('/', farmRouter);
 
+// Set timeout to 10 minutes (adjust as needed)
+app.timeout = 600000; // 10 minutes in milliseconds
+
 // app.use('/collectives', collectiveRoutes);
 
 app.use(function (req, res, next) {
