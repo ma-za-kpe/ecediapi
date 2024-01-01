@@ -36,7 +36,10 @@ async function getWeather(latitude, longitude, crop) {
 
     // Make the API request to get weather data
     const response = await axios.post(`${externalApiUrl}`, data, { headers });
-    const fcatValue = response.data['2023-12-28']?.daily?.fcat;
+    console.log('response:', response);
+
+    const fcatValue = response.data[today]?.daily?.fcat;
+    console.log('fcatValue:', fcatValue);
 
     // Check if the crops table is empty
     const count = await CropModel.countDocuments();
@@ -51,7 +54,6 @@ async function getWeather(latitude, longitude, crop) {
       if (existingCrop) {
         const fcatOneCategories = existingCrop.categories.filter(category => category.fcat === fcatValue);
         // Log or return the result
-        console.log(fcatOneCategories[0].advise);
         return {
           message: `Crop '${crop}'`,
           fcatValue: fcatValue,
@@ -78,6 +80,7 @@ async function getWeather(latitude, longitude, crop) {
       console.error('Unexpected error:', error);
       return {
         error: 'Unexpected error occurred',
+        message: error.message
       };
     }
   }
