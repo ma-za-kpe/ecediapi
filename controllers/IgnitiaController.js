@@ -36,10 +36,15 @@ async function getWeather(latitude, longitude, crop) {
 
     // Make the API request to get weather data
     const response = await axios.post(`${externalApiUrl}`, data, { headers });
-    console.log('response:', response);
+    // console.log('response:', response);
 
     const fcatValue = response.data[today]?.daily?.fcat;
+    const sunshine = response.data[today]?.daily?.sunshine;
+    const windSpeed = response.data[today]?.daily?.pwindgust;
+    const maxtemp = response.data[today]?.daily?.maxtemp;
     console.log('fcatValue:', fcatValue);
+    console.log('sunshine:', sunshine);
+    console.log('windSpeed:', windSpeed);
 
     // Check if the crops table is empty
     const count = await CropModel.countDocuments();
@@ -57,6 +62,9 @@ async function getWeather(latitude, longitude, crop) {
         return {
           message: `Crop '${crop}'`,
           fcatValue: fcatValue,
+          sunshine: sunshine,
+          windSpeed: windSpeed,
+          maxtemp: maxtemp,
           advise: fcatOneCategories[0].advise,
         };
       } else {
