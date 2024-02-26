@@ -26,7 +26,7 @@ import FarmerFields from '../models/FarmerFields.js';
    res.status(201).json(newFarmerFields);
  } catch (error) {
    console.error('Error creating farmerFields:', error);
-   res.status(500).json({ error: 'Failed to create farmerFields' });
+   res.status(500).json({ error: error });
  }
  };
 
