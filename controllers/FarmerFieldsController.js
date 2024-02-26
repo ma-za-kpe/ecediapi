@@ -65,7 +65,7 @@ import FarmerFields from '../models/FarmerFields.js';
   const deleteFarmerFieldsById = async (req, res) => {
     const { id } = req.params;
     try {
-      const deletedFarmerFields = await FarmerFields.findByIdAndRemove(id);
+      const deletedFarmerFields = await FarmerFields.findByIdAndDelete(id);
       if (!deletedFarmerFields) {
         return res.status(404).json({ error: 'farmerFields not found' });
       }
