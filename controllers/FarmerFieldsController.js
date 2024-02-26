@@ -17,9 +17,9 @@ import FarmerFields from '../models/FarmerFields.js';
 
    const existingfarmerFields = await FarmerFields.findOne({ name });
 
-   if (existingfarmerFields) {
-     return res.status(400).json({ error: 'FarmerFields name must be unique' });
-   }
+  //  if (existingfarmerFields) {
+  //    return res.status(400).json({ error: 'FarmerFields name must be unique' });
+  //  }
 
    // Create a new farmerFields if the name is unique
    const newFarmerFields = await FarmerFields.create(req.body);

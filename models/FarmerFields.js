@@ -12,7 +12,8 @@ const FarmerFieldsSchema = new mongoose.Schema({
     },
     emailAddress: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     gender: {
         type: String,
@@ -32,6 +33,14 @@ const FarmerFieldsSchema = new mongoose.Schema({
         required: true
     },
     contactNumber: {
+        type: String,
+        required: true
+    },
+    publicKey: {
+        type: String,
+        required: true
+    },
+    chainId: {
         type: String,
         required: true
     },
