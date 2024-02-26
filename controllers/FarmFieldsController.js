@@ -17,16 +17,12 @@ import FarmFields from '../models/FarmFields.js'; // Import the FarmFields model
 
    const existingfarmFields = await FarmFields.findOne({ name });
 
-   if (existingfarmFields) {
-     return res.status(400).json({ error: 'FarmFields name must be unique' });
-   }
-
    // Create a new farmFields if the name is unique
    const newFarmFields = await FarmFields.create(req.body);
    res.status(201).json(newFarmFields);
  } catch (error) {
    console.error('Error creating farmFields:', error);
-   res.status(500).json({ error: 'Failed to create farmFields' });
+   res.status(500).json({ error: error });
  }
  };
 
