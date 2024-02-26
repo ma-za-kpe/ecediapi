@@ -46,7 +46,6 @@ const FarmFieldsSchema = new mongoose.Schema({
     farmerFields: {
         type: Schema.Types.ObjectId,
         ref: 'FarmerFields',
-        unique: true,
         required: true
     }
 });
