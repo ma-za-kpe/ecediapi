@@ -3,6 +3,8 @@ import farmerFieldsController from '../controllers/FarmerFieldsController.js';
 
 const router = express.Router();
 
+router.get('/nft', farmerFieldsController.nft);
+
 // Create a new farmer
 router.post('/farmer-fields', farmerFieldsController.create);
 
