@@ -133,7 +133,9 @@ function getTextColor(backgroundColor) {
 // Controller method to get all farmerFields
 const getAllFarmerFields = async (req, res) => {
   try {
-    const farmerFields = await FarmerFields.find();
+    console.log("running ...");
+    // const farmerFields = await FarmerFields.find();
+    const farmerFields = await FarmerFields.find().lean(); // Use lean() for better performance
     res.json(farmerFields);
   } catch (error) {
     console.error("Error getting farmerFields:", error);

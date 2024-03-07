@@ -7,9 +7,6 @@ import fs from "fs";
 import path from "path";
 import { createCanvas, loadImage } from "canvas";
 import { Chart } from "chart.js";
-// import passport from 'passport';
-// import bodyParser from 'body-parser';
-// import { Strategy as BearerStrategy } from 'passport-http-bearer'; // Add this line
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
 import userRouter from "./routes/user.js";
@@ -232,7 +229,7 @@ const nft = async (updatedFieldValue, itemI) => {
       { new: true }
     )
       .then((updatedDocument) => {
-        console.error("Error updating field:", updatedDocument);
+        console.error("Successfully updated field:", updatedDocument);
         // If the update was successful, return the updated document
         //res.status(200).json({ success: true, data: updatedDocument });
       })
