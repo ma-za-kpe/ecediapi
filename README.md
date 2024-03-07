@@ -20,4 +20,4 @@ Our solution enables farmers to accurately record their carbon capture activitie
 
 ### Video Demo
 
-Please check out our video demo to see Carbon Ledger in action: [[Video Link](https://drive.google.com/file/d/1u2RRLXbc7e-d3b63DF1NL9Y2aggXbhdw/view?usp=drive_link)https://drive.google.com/file/d/1u2RRLXbc7e-d3b63DF1NL9Y2aggXbhdw/view?usp=drive_link]
+Please check out our video demo to see Carbon Ledger in action: [https://drive.google.com/file/d/1u2RRLXbc7e-d3b63DF1NL9Y2aggXbhdw/view?usp=drive_link)https://drive.google.com/file/d/1u2RRLXbc7e-d3b63DF1NL9Y2aggXbhdw/view?usp=drive_link]
