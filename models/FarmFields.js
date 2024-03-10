@@ -62,7 +62,8 @@ const FarmFieldsSchema = new mongoose.Schema({
     ],
   },
   farmerFields: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FarmerFields", // Reference to the FarmerFields collection
     required: true,
   },
   assetId: {

@@ -159,7 +159,7 @@ const nft = async (updatedFieldValue, itemI) => {
 
   // Define the directory path relative to the current script's directory
   // const imageDirectory = path.join(__dirname, "images");
-  const imageDirectory = path.resolve(__dirname, "../public");
+  const imageDirectory = path.resolve(__dirname, "../public/data/uploads");
   console.log("imagePath ", imageDirectory);
 
   // Ensure the directory exists, create it if it doesn't
