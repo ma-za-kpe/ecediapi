@@ -23,8 +23,7 @@ import farmerFieldsRouter from "./routes/FarmerFieldsRoutes.js";
 import farmFieldsRouter from "./routes/FarmFieldsController.js";
 import FarmFields from "./models/FarmFields.js";
 
-// import collectiveRoutes from './routes/collective.js';
-// import CollectiveModel from './models/Collective.js';
+import { v2 as cloudinary } from "cloudinary";
 
 const app = express();
 // Enable CORS for all routes
@@ -36,17 +35,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const __dirname = path.resolve();
-// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-// app.use(
-//   "../../public/images",
-//   express.static(__dirname + "../../public/images")
-// );
 
 console.log("__dirname :", __dirname);
 app.use(express.static(path.resolve(__dirname, "../")));
 
+// Return "https" URLs by setting secure: true
+cloudinary.config({
+  secure: true,
+});
+
 const api_key = process.env.API_KEY;
-const url = `https://devnet.helius-rpc.com/?api-key=${api_key}`;
+const url = `https://mainnet.helius-rpc.com/?api-key=${api_key}`;
+// const url = `https://devnet.helius-rpc.com/?api-key=${api_key}`;
 app.put("*", async (req, res, next) => {
   // Get the item ID from the URL parameters
   const itemId = req.params;
@@ -159,7 +159,7 @@ const nft = async (updatedFieldValue, itemI) => {
 
   // Define the directory path relative to the current script's directory
   // const imageDirectory = path.join(__dirname, "images");
-  const imageDirectory = path.resolve(__dirname, "../public/data/uploads");
+  const imageDirectory = path.resolve(__dirname, "../public");
   console.log("imagePath ", imageDirectory);
 
   // Ensure the directory exists, create it if it doesn't
@@ -171,14 +171,19 @@ const nft = async (updatedFieldValue, itemI) => {
   const imagePath = path.join(imageDirectory, filename);
   fs.writeFileSync(imagePath, buffer);
 
-  // Write the buffer data to a PNG file
-  fs.writeFile(imagePath, buffer, "binary", async (err) => {
-    if (err) {
-      console.error("Error writing PNG file:", err);
-      return;
-    }
-    console.log("PNG file saved successfully:", imagePath);
-    // save file to server
+  // Use the uploaded file's name as the asset's public ID and
+  // allow overwriting the asset with new versions
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
+
+  try {
+    // Upload the image
+    const resultImage = await cloudinary.uploader.upload(imagePath, options);
+    console.log("resultImage.secure_url ", resultImage.secure_url);
+
     // pass to mint
     const response = await fetch(url, {
       method: "POST",
@@ -211,7 +216,7 @@ const nft = async (updatedFieldValue, itemI) => {
               value: "Mythical",
             },
           ],
-          imageUrl: imagePath,
+          imageUrl: resultImage.secure_url,
           externalUrl: `https://ecedilink.onrender.com/farm-fields/${itemI}`,
           sellerFeeBasisPoints: 6900,
         },
@@ -237,16 +242,38 @@ const nft = async (updatedFieldValue, itemI) => {
         // If an error occurred during the update operation, return an error response
         console.error("Error updating field:", error);
       });
-  });
 
-  // const imageURL = `http://localhost:3000/images/${imagePath}`; // Adjust the domain and path as needed
-  // console.log("imagePath ", imageURL);
+    return resultImage.public_id;
+  } catch (error) {
+    console.error(error);
+  }
 
-  // Return a result if needed
   return {
     success: true,
     message: "Updated field value processed successfully",
   };
+};
+
+/////////////////////////
+// Uploads an image file
+/////////////////////////
+const uploadImage = async (imagePath) => {
+  // Use the uploaded file's name as the asset's public ID and
+  // allow overwriting the asset with new versions
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
+
+  try {
+    // Upload the image
+    const result = await cloudinary.uploader.upload(imagePath, options);
+    console.log(result);
+    return result.public_id;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 function getRandomColor() {

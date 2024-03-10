@@ -64,7 +64,6 @@ const FarmFieldsSchema = new mongoose.Schema({
   farmerFields: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "FarmerFields", // Reference to the FarmerFields collection
-    required: true,
   },
   assetId: {
     type: String,
@@ -72,6 +71,6 @@ const FarmFieldsSchema = new mongoose.Schema({
   },
 });
 
-const FarmFields = mongoose.model("FarmFieldsSchema", FarmFieldsSchema);
+const FarmFields = mongoose.model("FarmFields", FarmFieldsSchema);
 
 export default FarmFields;
